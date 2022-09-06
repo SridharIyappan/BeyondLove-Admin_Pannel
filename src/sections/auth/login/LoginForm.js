@@ -77,11 +77,11 @@ export default function LoginForm() {
             control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
             label="Remember me"
           /> */}
-          <Link component={RouterLink} variant="subtitle2" to="#" underline="hover" >
+          {/* <Link component={RouterLink} variant="subtitle2" to="#" underline="hover" >
             Forgot password?
-          </Link>
+          </Link> */}
         </Stack>
-
+        <br />
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
           Login
         </LoadingButton>
