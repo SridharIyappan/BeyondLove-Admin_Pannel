@@ -66,14 +66,14 @@ export default function Register() {
       <RootStyle>
         <HeaderStyle>
           <Logo />
-          {smUp && (
+          {/* {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
               Already have an account? {''}
               <Link variant="subtitle2" component={RouterLink} to="/login">
                 Login
               </Link>
             </Typography>
-          )}
+          )} */}
         </HeaderStyle>
 
         {mdUp && (
@@ -93,11 +93,11 @@ export default function Register() {
 
             <Typography sx={{ color: 'text.secondary', mb: 5 }}>Free forever. No credit card needed.</Typography>
 
-            <AuthSocial />
+            {/* <AuthSocial /> */}
 
             <RegisterForm />
 
-            <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
+            {/* <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
               By registering, I agree to Minimal&nbsp;
               <Link underline="always" color="text.primary" href="#">
                 Terms of Service
@@ -107,7 +107,7 @@ export default function Register() {
                 Privacy Policy
               </Link>
               .
-            </Typography>
+            </Typography> */}
 
             {!smUp && (
               <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
