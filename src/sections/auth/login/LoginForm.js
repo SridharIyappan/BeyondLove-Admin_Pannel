@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import axios from 'axios';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
@@ -29,8 +30,25 @@ export default function LoginForm() {
       remember: true,
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: async (e) => {
+      // navigate('/dashboard', { replace: true });
+      const d = {
+        mobile: e.mobile,
+        password: e.password
+      }
+      console.log(d)
+      try {
+        const { data } = await axios.post("http://localhost:3002/api/admin/login", d);
+        console.log(data)
+        const admin = JSON.stringify(data.admin)
+        if (data.success) {
+
+          localStorage.setItem("admin", admin)
+          localStorage.setItem("token", data.token)
+        }
+      } catch (error) {
+        console.log(errors)
+      }
     },
   });
 
