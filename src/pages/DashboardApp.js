@@ -1,4 +1,6 @@
 import { faker } from '@faker-js/faker';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
@@ -23,6 +25,36 @@ import {
 
 export default function DashboardApp() {
   const theme = useTheme();
+  const [petBoardings, setPetBoardings] = useState("");
+  const [petClinic, setPetClinic] = useState("")
+  const [petGroomings, setPetGroomings] = useState("")
+  const [petTraining, setPetTraining] = useState("")
+  const [serviceProvider, setServiceProvider] = useState("");
+  const [customer, SetCustomer] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      getCounts()
+    } else {
+      console.log("we are running on the server");
+    }
+  }, [])
+
+  const getCounts = async () => {
+    try {
+      const { data } = await axios.get(`http://localhost:3002/api/get-counts`);
+      console.log(data)
+      setPetBoardings(data.counts.petBoardings)
+      setPetClinic(data.counts.petClinics)
+      setPetGroomings(data.counts.petGroomings)
+      setPetTraining(data.counts.petTrainings)
+      setServiceProvider(data.counts.serviceProviders)
+      SetCustomer(data.counts.users)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   return (
     <Page title="Dashboard">
@@ -33,19 +65,19 @@ export default function DashboardApp() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="Pet Clinic" total={petClinic} icon={'fa-solid:clinic-medical'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="Pet Grooming" total={petGroomings} color="info" icon={'openmoji:scissors'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary title="Pet Boarding" total={petBoardings} color="warning" icon={'fluent:building-shop-20-regular'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary title="Pet Training" total={petTraining} color="error" icon={'healthicons:guide-dog'} />
           </Grid>
 
           {/* <Grid item xs={12} md={6} lg={8}>
@@ -174,25 +206,25 @@ export default function DashboardApp() {
               title="Category"
               list={[
                 {
-                  name: 'Pet Clinic',
-                  value: 323234,
+                  name: 'Total Service Providers',
+                  value: serviceProvider,
 
-                  icon: <Iconify icon={'fa-solid:clinic-medical'} color="#1877F2" width={32} height={32} />,
+                  icon: <Iconify icon={'flat-color-icons:business-contact'} color="#1877F2" width={32} height={32} />,
                 },
                 {
-                  name: 'Pet Boarding',
+                  name: 'Verified Vendors',
                   value: 341212,
-                  icon: <Iconify icon={'ant-design:shop-twotone'} color="#DF3E30" width={32} height={32} />,
+                  icon: <Iconify icon={'ic:round-verified-user'} color="#0f7538" width={32} height={32} />,
                 },
                 {
-                  name: 'Pet Grooming',
-                  value: 411213,
-                  icon: <Iconify icon={'mdi:scissors-cutting'} color="#006097" width={32} height={32} />,
+                  name: 'No. of Customers',
+                  value: customer,
+                  icon: <Iconify icon={'fa6-solid:users-rays'} color="#006097" width={32} height={32} />,
                 },
                 {
-                  name: 'Pet Training',
+                  name: 'Appoinments',
                   value: 443232,
-                  icon: <Iconify icon={'healthicons:guide-dog-outline'} color="#1C9CEA" width={32} height={32} />,
+                  icon: <Iconify icon={'icon-park:appointment'} color="#1C9CEA" width={32} height={32} />,
                 },
               ]}
             />
