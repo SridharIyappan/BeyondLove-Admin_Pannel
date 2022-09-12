@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
+import { ToastContainer, toast, TypeOptions } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 // material
 import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormControlLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -40,11 +42,33 @@ export default function LoginForm() {
       try {
         const { data } = await axios.post("http://localhost:3002/api/admin/login", d);
         console.log(data)
-        const admin = JSON.stringify(data.admin)
         if (data.success) {
+          toast.success(data.msg, {
+            theme: "light",
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
 
+          const admin = JSON.stringify(data.admin)
           localStorage.setItem("admin", admin)
           localStorage.setItem("token", data.token)
+          navigate('/dashboard/app');
+        } else {
+          toast.error(data.msg, {
+            theme: "light",
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
       } catch (error) {
         console.log(errors)
@@ -60,6 +84,7 @@ export default function LoginForm() {
 
   return (
     <FormikProvider value={formik}>
+      <ToastContainer />
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextField
