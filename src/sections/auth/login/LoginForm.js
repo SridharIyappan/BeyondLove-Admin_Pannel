@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { ToastContainer, toast, TypeOptions } from "react-toastify";
+import { ToastContainer, toast, TypeOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // material
 import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormControlLabel } from '@mui/material';
@@ -36,16 +36,16 @@ export default function LoginForm() {
       // navigate('/dashboard', { replace: true });
       const d = {
         mobile: e.mobile,
-        password: e.password
-      }
-      console.log(d)
+        password: e.password,
+      };
+      console.log(d);
       try {
-        const { data } = await axios.post("http://localhost:3002/api/admin/login", d);
-        console.log(data)
+        const { data } = await axios.post('http://localhost:3002/api/admin/login', d);
+        console.log(data);
         if (data.success) {
           toast.success(data.msg, {
-            theme: "light",
-            position: "top-right",
+            theme: 'light',
+            position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -54,14 +54,14 @@ export default function LoginForm() {
             progress: undefined,
           });
 
-          const admin = JSON.stringify(data.admin)
-          localStorage.setItem("admin", admin)
-          localStorage.setItem("token", data.token)
+          const admin = JSON.stringify(data.admin);
+          localStorage.setItem('admin', admin);
+          localStorage.setItem('token', data.token);
           navigate('/dashboard/app');
         } else {
           toast.error(data.msg, {
-            theme: "light",
-            position: "top-right",
+            theme: 'light',
+            position: 'top-right',
             autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -71,7 +71,7 @@ export default function LoginForm() {
           });
         }
       } catch (error) {
-        console.log(errors)
+        console.log(errors);
       }
     },
   });
@@ -117,7 +117,13 @@ export default function LoginForm() {
           />
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }} style={{ float: "right" }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ my: 2 }}
+          style={{ float: 'right' }}
+        >
           {/* <FormControlLabel
             control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
             label="Remember me"

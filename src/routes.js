@@ -13,11 +13,11 @@ import DashboardApp from './pages/DashboardApp';
 
 // ----------------------------------------------------------------------
 
-export default function Router() {
+export default function Router({ loggedIn }) {
   return useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: loggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
@@ -27,10 +27,10 @@ export default function Router() {
     },
     {
       path: '/',
-      element: <LogoOnlyLayout />,
+      element: !loggedIn ? <LogoOnlyLayout /> : <Navigate to="/dashboard/app" />,
       children: [
+        { path: '/login', element: <Login /> },
         { path: '/', element: <Navigate to="/dashboard/app" /> },
-        { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
