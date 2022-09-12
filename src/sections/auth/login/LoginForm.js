@@ -57,7 +57,7 @@ export default function LoginForm() {
           const admin = JSON.stringify(data.admin);
           localStorage.setItem('admin', admin);
           localStorage.setItem('token', data.token);
-          navigate('/dashboard/app');
+          window.location.reload(true);
         } else {
           toast.error(data.msg, {
             theme: 'light',

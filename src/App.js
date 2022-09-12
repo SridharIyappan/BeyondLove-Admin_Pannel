@@ -15,11 +15,11 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
     const tok = localStorage.getItem('token');
-    if (tok !== null || tok !== '') {
+    if (tok !== null && tok !== '') {
       setLoggedIn(true);
       setToken(tok);
     }
-  }, [loggedIn, token]);
+  }, []);
   return (
     <ThemeProvider>
       <ScrollToTop />

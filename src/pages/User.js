@@ -27,7 +27,7 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
-import USERLIST from '../_mock/user';
+// import USERLIST from '../_mock/user';
 
 // ----------------------------------------------------------------------
 
@@ -36,17 +36,17 @@ const TABLE_HEAD = [
   { id: 'mobile', label: 'Mobile', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'location', label: 'Location', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  // { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
 
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+  if (b < a) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (b > a) {
     return 1;
   }
   return 0;
@@ -61,12 +61,14 @@ function getComparator(order, orderBy) {
 function applySortFilter(array, comparator, query) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
+    console.log(a[0].customerName, b[0].customerName);
+    const order = comparator(a[0].customerName, b[0].customerName);
+
     if (order !== 0) return order;
-    return a[1] - b[1];
+    return a[1].customerName - b[1].customerName;
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.customerName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -84,18 +86,18 @@ export default function User() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const [allCustomer, setAllCustomer] = useState([])
-  console.log(allCustomer)
+  const [allCustomer, setAllCustomer] = useState([]);
+  // console.log(allCustomer)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
+    console.log({ isAsc }, { property });
     setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
   };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = allCustomer.map((n) => n.customerName);
       setSelected(newSelecteds);
       return;
     }
@@ -137,25 +139,25 @@ export default function User() {
   const isUserNotFound = filteredUsers.length === 0;
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token")
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
       if (token !== null) {
-        getAllCustomer(token)
+        getAllCustomer(token);
       }
     } else {
-      console.log("we are running on the server");
+      console.log('we are running on the server');
     }
-  }, [])
+  }, []);
 
   const getAllCustomer = async (tok) => {
     try {
       const { data } = await axios.get(`http://localhost:3002/api/admin/get-allcustomers/${tok}`);
-      console.log(data)
-      setAllCustomer(data.allUsers)
+      console.log(data);
+      setAllCustomer(data.allUsers);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <Page title="User">
@@ -186,7 +188,7 @@ export default function User() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, customerName, mobile, email, location, status } = row;
+                    const { id, customerName, mobile, email, location } = row;
                     const isItemSelected = selected.indexOf(customerName) !== -1;
 
                     return (
@@ -212,11 +214,11 @@ export default function User() {
                         <TableCell align="left">{mobile}</TableCell>
                         <TableCell align="left">{email}</TableCell>
                         <TableCell align="left">{location[0]}</TableCell>
-                        <TableCell align="left">
+                        {/* <TableCell align="left">
                           <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                             {sentenceCase(status)}
                           </Label>
-                        </TableCell>
+                        </TableCell> */}
 
                         <TableCell align="right">
                           <UserMoreMenu />
@@ -247,7 +249,7 @@ export default function User() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={allCustomer.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
