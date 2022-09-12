@@ -16,14 +16,16 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    // email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    mobile: Yup.string().required('Mobile is required').min(10).max(10),
     password: Yup.string().required('Password is required'),
   });
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      // email: '',
       password: '',
+      mobile: '',
       remember: true,
     },
     validationSchema: LoginSchema,
@@ -45,11 +47,11 @@ export default function LoginForm() {
           <TextField
             fullWidth
             autoComplete="username"
-            type="email"
-            label="Email address"
-            {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            type="number"
+            label="Mobile"
+            {...getFieldProps('mobile')}
+            error={Boolean(touched.mobile && errors.mobile)}
+            helperText={touched.mobile && errors.mobile}
           />
 
           <TextField
