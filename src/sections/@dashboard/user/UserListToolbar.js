@@ -44,7 +44,7 @@ UserListToolbar.propTypes = {
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
 };
-export default function UserListToolbar({ numSelected, filterName, onFilterName }) {
+export default function UserListToolbar({ numSelected, filterName, onFilterName, categoryShow }) {
   return (
     <RootStyle
       sx={{
@@ -78,22 +78,25 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
         </Typography>
       ) : (
         <Box sx={{ minWidth: 170 }}>
-          <FormControl fullWidth>
-            <InputLabel id="category">Category</InputLabel>
-            <Select
-              labelId="category"
-              id="demo-simple-select"
-              // value={age}
-              label="Category"
-            // onChange={handleChange}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
+          {categoryShow && (
+            <FormControl fullWidth>
+              <InputLabel id="category">Category</InputLabel>
+              <Select
+                labelId="category"
+                id="demo-simple-select"
+                // value={age}
+                label="Category"
+                // onChange={handleChange}
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          )}
         </Box>
       )}
+
       {numSelected > 0 ? (
         <Typography component="div" variant="subtitle1">
           {numSelected} selected
@@ -107,7 +110,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
               id="demo-simple-select"
               // value={age}
               label="State"
-            // onChange={handleChange}
+              // onChange={handleChange}
             >
               <MenuItem value={10}>Ten</MenuItem>
               <MenuItem value={20}>Twenty</MenuItem>
@@ -129,7 +132,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
               id="demo-simple-select"
               // value={age}
               label="City"
-            // onChange={handleChange}
+              // onChange={handleChange}
             >
               <MenuItem value={10}>Ten</MenuItem>
               <MenuItem value={20}>Twenty</MenuItem>
@@ -151,7 +154,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
               id="demo-simple-select"
               // value={age}
               label="Location"
-            // onChange={handleChange}
+              // onChange={handleChange}
             >
               <MenuItem value={10}>Ten</MenuItem>
               <MenuItem value={20}>Twenty</MenuItem>

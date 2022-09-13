@@ -87,7 +87,8 @@ export default function User() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [allCustomer, setAllCustomer] = useState([]);
-  // console.log(allCustomer)
+
+  const categoryShow = false;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -172,7 +173,12 @@ export default function User() {
         </Stack>
 
         <Card>
-          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+          <UserListToolbar
+            numSelected={selected.length}
+            filterName={filterName}
+            onFilterName={handleFilterByName}
+            categoryShow={categoryShow}
+          />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
