@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // material
 import { styled } from '@mui/material/styles';
@@ -15,8 +16,14 @@ import {
   FormControl,
   Button,
 } from '@mui/material';
+import { toast } from 'react-toastify';
 import { Box } from '@mui/system';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import { dataState } from '../../../utils/dataState';
+import { dataCity } from '../../../utils/dataCity';
+import { dataLocation } from '../../../utils/dataLocation';
+import 'react-toastify/dist/ReactToastify.css';
+
 // component
 import Iconify from '../../../components/Iconify';
 // ----------------------------------------------------------------------
@@ -45,6 +52,95 @@ UserListToolbar.propTypes = {
   onFilterName: PropTypes.func,
 };
 export default function UserListToolbar({ numSelected, filterName, onFilterName, categoryShow }) {
+  const [selectedState, setSelectedState] = useState('');
+  const [cityArray, setCityArray] = useState([]);
+  const [selectedCity, setSelectedCity] = useState('');
+  const [locationArray, setLocationArray] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  useEffect(() => {
+    dataState.sort((a, b) => (a.Geo_Name < b.Geo_Name ? -1 : 1));
+    dataCity.sort((a, b) => (a[0] < b[0] ? -1 : 1));
+    dataLocation.sort((a, b) => (a[0] < b[0] ? -1 : 1));
+  }, []);
+
+  const handleChangeCategory = (e) => {
+    console.log(e.target.value);
+    setSelectedCategory(e.target.value);
+  };
+  const handleChangeState = (e) => {
+    console.log(e.target.value);
+    const state = e.target.value;
+
+    setSelectedState([state.Geo_Name, state.id]);
+  };
+
+  const handleClickCity = () => {
+    console.log(selectedState);
+    if (selectedState === '' || selectedState[1] === undefined) {
+      console.log('object');
+      toast.error('Please Select State', {
+        theme: 'light',
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      const arr = [];
+      dataCity.forEach((city) => {
+        if (city[1] === selectedState[1]) {
+          arr.push(city);
+        }
+      });
+      console.log({ arr });
+      setCityArray(arr);
+    }
+  };
+
+  // City Change Function
+  const handleChangeCity = (e) => {
+    const cty = e.target.value;
+    // console.log(cty.split(','));
+    setSelectedCity(cty);
+  };
+
+  const handleChangeLocation = (e) => {
+    const loc = e.target.value;
+    setSelectedLocation(loc);
+  };
+
+  // Filtering Locations by City
+  const handleClickLocation = () => {
+    console.log(selectedCity);
+    if (selectedCity === '' || selectedCity[2] === undefined) {
+      toast.error('Please Select City', {
+        theme: 'light',
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      const arr = [];
+      dataLocation.forEach((loc) => {
+        console.log(selectedCity);
+        if (loc[2] === selectedCity[2]) {
+          arr.push(loc);
+        }
+      });
+      console.log({ arr });
+      setLocationArray(arr);
+    }
+  };
+
   return (
     <RootStyle
       sx={{
@@ -84,13 +180,14 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
               <Select
                 labelId="category"
                 id="demo-simple-select"
-                // value={age}
+                // value={selectedCategory}
                 label="Category"
-                // onChange={handleChange}
+                onChange={handleChangeCategory}
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={'PetClinic'}>Pet Clinic</MenuItem>
+                <MenuItem value={'PetGrooming'}>Pet Grooming</MenuItem>
+                <MenuItem value={'PetTraining'}>Pet Training</MenuItem>
+                <MenuItem value={'PetBoarding'}>Pet Boarding</MenuItem>
               </Select>
             </FormControl>
           )}
@@ -105,16 +202,22 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
         <Box sx={{ minWidth: 150 }}>
           <FormControl fullWidth>
             <InputLabel id="state">State</InputLabel>
+
             <Select
               labelId="state"
               id="demo-simple-select"
-              // value={age}
+              // value={stateName}
               label="State"
-              // onChange={handleChange}
+              onChange={handleChangeState}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {dataState.map((state) => {
+                console.log({ state });
+                return (
+                  <MenuItem value={state} key={state.id}>
+                    {state.Geo_Name !== '' && state.Geo_Name}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </Box>
@@ -132,11 +235,17 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
               id="demo-simple-select"
               // value={age}
               label="City"
-              // onChange={handleChange}
+              onOpen={handleClickCity}
+              onChange={handleChangeCity}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {cityArray.map((city) => {
+                console.log({ city });
+                return (
+                  <MenuItem value={city} key={city[2]}>
+                    {city[0]}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </Box>
@@ -154,11 +263,17 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
               id="demo-simple-select"
               // value={age}
               label="Location"
-              // onChange={handleChange}
+              onOpen={handleClickLocation}
+              onChange={handleChangeLocation}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {locationArray.map((location) => {
+                console.log({ location });
+                return (
+                  <MenuItem value={location} key={location[3]}>
+                    {location[0]}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </Box>
