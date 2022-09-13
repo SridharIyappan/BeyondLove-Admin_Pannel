@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate, useNavigate } from 'react-router-dom';
+
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
@@ -35,16 +36,22 @@ export default function AccountPopover() {
 
   const [open, setOpen] = useState(null);
 
+  const navigate = useNavigate();
+
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
   const handleClose = () => {
-    setOpen(null);
     localStorage.removeItem("token")
     localStorage.removeItem("admin")
-
+    window.location.reload(false);
+    // navigate('/login');
   };
+
+  const handleCloseOutSide = () => {
+    setOpen(null)
+  }
 
   return (
     <>
@@ -72,7 +79,7 @@ export default function AccountPopover() {
       <MenuPopover
         open={Boolean(open)}
         anchorEl={open}
-        onClose={handleClose}
+        onClose={handleCloseOutSide}
         sx={{
           p: 0,
           mt: 1.5,
@@ -96,7 +103,7 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} to={option.linkTo} component={RouterLink} onClick={handleClose}>
+            <MenuItem key={option.label} to={option.linkTo} component={RouterLink} >
               {option.label}
             </MenuItem>
           ))}
