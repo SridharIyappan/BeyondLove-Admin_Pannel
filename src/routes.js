@@ -10,6 +10,7 @@ import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
+import ServiceProvider from './pages/ServiceProvider';
 
 // ----------------------------------------------------------------------
 
@@ -20,6 +21,7 @@ export default function Router({ loggedIn }) {
       element: loggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { path: 'app', element: <DashboardApp /> },
+        { path: 'serviceprovider', element: <ServiceProvider /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },

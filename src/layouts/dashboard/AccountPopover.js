@@ -41,6 +41,9 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
+    localStorage.removeItem("token")
+    localStorage.removeItem("admin")
+
   };
 
   return (
