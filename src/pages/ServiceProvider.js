@@ -414,8 +414,8 @@ export default function ServiceProvider() {
     e.preventDefault();
     navigate('/dashboard/addingbusiness');
   };
-  const handleBusiness = () => {
-    navigate('/dashboard/singlebusinessdetails');
+  const handleBusiness = (id) => {
+    navigate('/dashboard/singlebusinessdetails', { state: id });
   };
 
   return (
@@ -476,7 +476,7 @@ export default function ServiceProvider() {
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             {/* <Avatar alt={name} src={avatarUrl} /> */}
-                            <Typography variant="subtitle2" noWrap onClick={handleBusiness}>
+                            <Typography variant="subtitle2" noWrap onClick={() => handleBusiness(id)}>
                               {businessName}
                             </Typography>
                           </Stack>
