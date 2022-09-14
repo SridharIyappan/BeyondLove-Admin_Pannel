@@ -155,6 +155,7 @@ export default function ServiceProvider() {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token');
       if (token !== null) {
+        currentPage = 0;
         interval = setInterval(() => {
           currentPage++;
           businessFilteration(currentPage, categoryFilter, stateFilter, cityFilter, locationFilter);
