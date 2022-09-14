@@ -51,18 +51,22 @@ UserListToolbar.propTypes = {
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
 };
-export default function UserListToolbar({ numSelected, filterName, onFilterName, categoryShow }) {
+export default function UserListToolbar({ numSelected, filterName, onFilterName, categoryShow, handleSearch }) {
   const [selectedState, setSelectedState] = useState('');
   const [cityArray, setCityArray] = useState([]);
   const [selectedCity, setSelectedCity] = useState('');
   const [locationArray, setLocationArray] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [interval, setInterval] = useState('');
 
   useEffect(() => {
     dataState.sort((a, b) => (a.Geo_Name < b.Geo_Name ? -1 : 1));
     dataCity.sort((a, b) => (a[0] < b[0] ? -1 : 1));
     dataLocation.sort((a, b) => (a[0] < b[0] ? -1 : 1));
+    let inter = localStorage.getItem('interval');
+    console.log({ inter });
+    setInterval(inter);
   }, []);
 
   const handleChangeCategory = (e) => {
@@ -70,16 +74,17 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
     setSelectedCategory(e.target.value);
   };
   const handleChangeState = (e) => {
-    console.log(e.target.value);
+    console.log({ interval });
+    clearInterval(interval);
     const state = e.target.value;
 
     setSelectedState([state.Geo_Name, state.id]);
   };
 
   const handleClickCity = () => {
-    console.log(selectedState);
+    clearInterval(interval);
+    localStorage.removeItem('interval');
     if (selectedState === '' || selectedState[1] === undefined) {
-      console.log('object');
       toast.error('Please Select State', {
         theme: 'light',
         position: 'top-right',
@@ -97,7 +102,6 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
           arr.push(city);
         }
       });
-      console.log({ arr });
       setCityArray(arr);
     }
   };
@@ -105,7 +109,6 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
   // City Change Function
   const handleChangeCity = (e) => {
     const cty = e.target.value;
-    // console.log(cty.split(','));
     setSelectedCity(cty);
   };
 
@@ -116,7 +119,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
 
   // Filtering Locations by City
   const handleClickLocation = () => {
-    console.log(selectedCity);
+    clearInterval(interval);
     if (selectedCity === '' || selectedCity[2] === undefined) {
       toast.error('Please Select City', {
         theme: 'light',
@@ -131,12 +134,10 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
     } else {
       const arr = [];
       dataLocation.forEach((loc) => {
-        console.log(selectedCity);
         if (loc[2] === selectedCity[2]) {
           arr.push(loc);
         }
       });
-      console.log({ arr });
       setLocationArray(arr);
     }
   };
@@ -211,7 +212,6 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
               onChange={handleChangeState}
             >
               {dataState.map((state) => {
-                console.log({ state });
                 return (
                   <MenuItem value={state} key={state.id}>
                     {state.Geo_Name !== '' && state.Geo_Name}
@@ -239,7 +239,6 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
               onChange={handleChangeCity}
             >
               {cityArray.map((city) => {
-                console.log({ city });
                 return (
                   <MenuItem value={city} key={city[2]}>
                     {city[0]}
@@ -267,7 +266,6 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
               onChange={handleChangeLocation}
             >
               {locationArray.map((location) => {
-                console.log({ location });
                 return (
                   <MenuItem value={location} key={location[3]}>
                     {location[0]}
@@ -286,7 +284,11 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
         </Tooltip>
       ) : (
         <Tooltip title="Search">
-          <Button variant="contained" sx={{ height: '50px', width: '50px' }}>
+          <Button
+            variant="contained"
+            sx={{ height: '50px', width: '50px' }}
+            onClick={() => handleSearch(selectedCategory, selectedState, selectedCity, selectedLocation)}
+          >
             <SearchRoundedIcon />
           </Button>
         </Tooltip>

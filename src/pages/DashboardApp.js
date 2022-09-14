@@ -25,35 +25,37 @@ import {
 
 export default function DashboardApp() {
   const theme = useTheme();
-  const [petBoardings, setPetBoardings] = useState("");
-  const [petClinic, setPetClinic] = useState("")
-  const [petGroomings, setPetGroomings] = useState("")
-  const [petTraining, setPetTraining] = useState("")
-  const [serviceProvider, setServiceProvider] = useState("");
-  const [customer, SetCustomer] = useState("");
+  const [petBoardings, setPetBoardings] = useState('');
+  const [petClinic, setPetClinic] = useState('');
+  const [petGroomings, setPetGroomings] = useState('');
+  const [petTraining, setPetTraining] = useState('');
+  const [serviceProvider, setServiceProvider] = useState('');
+  const [customer, SetCustomer] = useState('');
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      getCounts()
+    if (typeof window !== 'undefined') {
+      let dataInterval = localStorage.getItem('interval');
+      clearInterval(dataInterval);
+      getCounts();
     } else {
-      console.log("we are running on the server");
+      console.log('we are running on the server');
     }
-  }, [])
+  }, []);
 
   const getCounts = async () => {
     try {
       const { data } = await axios.get(`http://localhost:3002/api/get-counts`);
-      console.log(data)
-      setPetBoardings(data.counts.petBoardings)
-      setPetClinic(data.counts.petClinics)
-      setPetGroomings(data.counts.petGroomings)
-      setPetTraining(data.counts.petTrainings)
-      setServiceProvider(data.counts.serviceProviders)
-      SetCustomer(data.counts.users)
+      console.log(data);
+      setPetBoardings(data.counts.petBoardings);
+      setPetClinic(data.counts.petClinics);
+      setPetGroomings(data.counts.petGroomings);
+      setPetTraining(data.counts.petTrainings);
+      setServiceProvider(data.counts.serviceProviders);
+      SetCustomer(data.counts.users);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <Page title="Dashboard">
@@ -72,7 +74,12 @@ export default function DashboardApp() {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Pet Boarding" total={petBoardings} color="warning" icon={'fluent:building-shop-20-regular'} />
+            <AppWidgetSummary
+              title="Pet Boarding"
+              total={petBoardings}
+              color="warning"
+              icon={'fluent:building-shop-20-regular'}
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
