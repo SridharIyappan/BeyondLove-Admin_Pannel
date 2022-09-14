@@ -415,8 +415,9 @@ export default function ServiceProvider() {
     e.preventDefault();
     navigate('/dashboard/addingbusiness');
   };
-  const handleBusiness = (id) => {
-    navigate('/dashboard/singlebusinessdetails', { state: id });
+  const handleBusiness = (id, category) => {
+    console.log(id, category);
+    navigate('/dashboard/singlebusinessdetails', { state: { id, category } });
   };
 
   return (
@@ -460,12 +461,12 @@ export default function ServiceProvider() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, businessName, mobile, email, location } = row;
+                    const { _id, businessName, mobile, email, location, category } = row;
                     const isItemSelected = selected.indexOf(businessName) !== -1;
                     return (
                       <TableRow
                         hover
-                        key={id}
+                        key={_id}
                         tabIndex={-1}
                         role="checkbox"
                         selected={isItemSelected}
@@ -477,7 +478,12 @@ export default function ServiceProvider() {
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             {/* <Avatar alt={name} src={avatarUrl} /> */}
-                            <Typography variant="subtitle2" noWrap onClick={() => handleBusiness(id)}>
+                            <Typography
+                              variant="subtitle2"
+                              noWrap
+                              onClick={() => handleBusiness(_id, category)}
+                              sx={{ cursor: 'pointer' }}
+                            >
                               {businessName}
                             </Typography>
                           </Stack>
