@@ -66,7 +66,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
     dataLocation.sort((a, b) => (a[0] < b[0] ? -1 : 1));
     let inter = localStorage.getItem('interval');
     console.log({ inter });
-    setInterval(localStorage.getItem('interval'));
+    setInterval(inter);
   }, []);
 
   const handleChangeCategory = (e) => {
@@ -82,6 +82,8 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
   };
 
   const handleClickCity = () => {
+    clearInterval(interval);
+    localStorage.removeItem('interval');
     if (selectedState === '' || selectedState[1] === undefined) {
       toast.error('Please Select State', {
         theme: 'light',
@@ -117,6 +119,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
 
   // Filtering Locations by City
   const handleClickLocation = () => {
+    clearInterval(interval);
     if (selectedCity === '' || selectedCity[2] === undefined) {
       toast.error('Please Select City', {
         theme: 'light',

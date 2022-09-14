@@ -61,9 +61,7 @@ function getComparator(order, orderBy) {
 function applySortFilter(array, comparator, query) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
-    console.log(a[0].businessName, b[0].businessName);
     const order = comparator(a[0].businessName, b[0].businessName);
-
     if (order !== 0) return order;
     return a[1].businessName - b[1].businessName;
   });
@@ -72,6 +70,10 @@ function applySortFilter(array, comparator, query) {
   }
   return stabilizedThis.map((el) => el[0]);
 }
+
+let currentPage = 0;
+let interval;
+let searchInterval;
 
 export default function ServiceProvider() {
   const [page, setPage] = useState(0);
@@ -97,10 +99,6 @@ export default function ServiceProvider() {
   const [secondInterval, setSecondInterval] = useState('');
 
   const categoryShow = true;
-
-  let currentPage = 0;
-  let interval;
-  let searchInterval;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -155,11 +153,12 @@ export default function ServiceProvider() {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token');
       if (token !== null) {
-        // interval = setInterval(() => {
-        //   currentPage++;
-        //   businessFilteration(currentPage, categoryFilter, stateFilter, cityFilter, locationFilter);
-        // }, 10000);
-        // setFirstInterval(interval);
+        interval = setInterval(() => {
+          currentPage++;
+          businessFilteration(currentPage, categoryFilter, stateFilter, cityFilter, locationFilter);
+        }, 100);
+        setFirstInterval(interval);
+        localStorage.setItem('interval', interval);
       }
     } else {
       console.log('we are running on the server');
@@ -282,11 +281,12 @@ export default function ServiceProvider() {
         const { data } = await axios.get(
           `http://localhost:3002/api/business/get-profiles-from-all-categories/${pageNo}`
         );
+        console.log(data);
         if (data.success) {
           arr = data.profilesArray;
         } else {
-          clearInterval(firstInterval);
-          clearInterval(secondInterval);
+          clearInterval(interval);
+          clearInterval(searchInterval);
           console.log('success false');
         }
       } else if (type === 'state') {
@@ -297,8 +297,8 @@ export default function ServiceProvider() {
         if (data.success) {
           arr = data.profilesArray;
         } else {
-          clearInterval(firstInterval);
-          clearInterval(secondInterval);
+          clearInterval(interval);
+          clearInterval(searchInterval);
           console.log('success false');
         }
       } else if (type === 'city') {
@@ -309,8 +309,8 @@ export default function ServiceProvider() {
         if (data.success) {
           arr = data.profilesArray;
         } else {
-          clearInterval(firstInterval);
-          clearInterval(secondInterval);
+          clearInterval(interval);
+          clearInterval(searchInterval);
           console.log('success false');
         }
       } else if (type === 'location') {
@@ -320,8 +320,8 @@ export default function ServiceProvider() {
         if (data.success) {
           arr = data.profilesArray;
         } else {
-          clearInterval(firstInterval);
-          clearInterval(secondInterval);
+          clearInterval(interval);
+          clearInterval(searchInterval);
           console.log('success false');
         }
       } else {
@@ -346,8 +346,8 @@ export default function ServiceProvider() {
         arr = data.profilesArray;
       } else {
         console.log({ firstInterval, secondInterval });
-        clearInterval(firstInterval);
-        clearInterval(secondInterval);
+        clearInterval(interval);
+        clearInterval(searchInterval);
         console.log('success false');
       }
     } else if (type === 'state') {
@@ -358,8 +358,8 @@ export default function ServiceProvider() {
       if (data.success) {
         arr = data.profilesArray;
       } else {
-        clearInterval(firstInterval);
-        clearInterval(secondInterval);
+        clearInterval(interval);
+        clearInterval(searchInterval);
         console.log('success false');
       }
     } else if (type === 'city') {
@@ -370,8 +370,8 @@ export default function ServiceProvider() {
       if (data.success) {
         arr = data.profilesArray;
       } else {
-        clearInterval(firstInterval);
-        clearInterval(secondInterval);
+        clearInterval(interval);
+        clearInterval(searchInterval);
         console.log('success false');
       }
     } else if (type === 'location') {
@@ -381,8 +381,8 @@ export default function ServiceProvider() {
       if (data.success) {
         arr = data.profilesArray;
       } else {
-        clearInterval(firstInterval);
-        clearInterval(secondInterval);
+        clearInterval(interval);
+        clearInterval(searchInterval);
         console.log('success false');
       }
     } else {
@@ -394,8 +394,8 @@ export default function ServiceProvider() {
 
   const handleSearch = (category, state, city, location) => {
     console.log({ category }, { state }, { city }, { location });
-    clearInterval(firstInterval);
-    clearInterval(secondInterval);
+    clearInterval(interval);
+    clearInterval(searchInterval);
     setAllServiceProviders([]);
 
     currentPage = 0;
