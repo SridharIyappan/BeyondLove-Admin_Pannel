@@ -19,7 +19,9 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { ToastContainer, toast, TypeOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { dataState } from '../utils/dataState';
 import { dataCity } from '../utils/dataCity';
 import { dataLocation } from '../utils/dataLocation';
@@ -33,6 +35,7 @@ const AddingBusiness = () => {
   const [locationArray, setLocationArray] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [token, setToken] = useState('');
 
   const LoginSchema = Yup.object().shape({
     businessName: Yup.string().required('Business Name is required'),
@@ -41,10 +44,17 @@ const AddingBusiness = () => {
     address: Yup.string().required('Address is required'),
     password: Yup.string().required('Password is required'),
     category: Yup.string().required('Category is required'),
-    state: Yup.string().required('state is required'),
-    city: Yup.string().required('city is required'),
-    location: Yup.string().required('location is required'),
+    // state: Yup.string().required('state is required'),
+    // city: Yup.string().required('city is required'),
+    // location: Yup.string().required('location is required'),
   });
+
+  useEffect(() => {
+    const tok = localStorage.getItem('token');
+    setToken(tok);
+  }, []);
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -54,13 +64,14 @@ const AddingBusiness = () => {
       address: '',
       password: '',
       category: '',
-      state: '',
-      city: '',
-      location: '',
+      //   state: '',
+      //   city: '',
+      //   location: '',
     },
     validationSchema: LoginSchema,
-    onSubmit: (e) => {
-      e.preventDefault();
+    onSubmit: async (e) => {
+      //   e.preventDefault();
+      console.log('running');
       const d = {
         businessName: e.businessName,
         email: e.email,
@@ -68,11 +79,43 @@ const AddingBusiness = () => {
         address: e.address,
         password: e.password,
         category: e.category,
-        state: e.state,
-        city: e.city,
-        location: e.location,
+        state: selectState,
+        city: selectCity,
+        location: selectedLocation,
       };
       console.log({ d });
+      try {
+        if (token !== null || token !== '' || token !== undefined) {
+          if (selectState !== '' && selectCity !== '' && selectedLocation !== '') {
+            const { data } = await axios.post(`http://localhost:3002/api/admin/create-business/${token}`, d);
+            console.log(data);
+            toast.success(data.msg, {
+              theme: 'light',
+              position: 'top-right',
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+            });
+            navigate('/dashboard/serviceprovider');
+          } else {
+            toast.error('Please Select State', {
+              theme: 'light',
+              position: 'top-right',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          }
+        }
+      } catch (error) {
+        console.log({ error });
+      }
     },
   });
 
@@ -93,6 +136,7 @@ const AddingBusiness = () => {
   };
 
   const handleClickCity = () => {
+    console.log(selectState);
     if (selectState === '' || selectState[1] === undefined) {
       toast.error('Please Select State', {
         theme: 'light',
@@ -151,7 +195,7 @@ const AddingBusiness = () => {
   };
 
   return (
-    <>
+    <Box m={2}>
       <FormikProvider value={formik}>
         <Typography variant="h4" m={1}>
           Add Business
@@ -254,9 +298,10 @@ const AddingBusiness = () => {
                   label="State"
                   sx={{ m: 1, width: '40ch' }}
                   onChange={handleChangeState}
-                  {...getFieldProps('state')}
-                  error={Boolean(touched.state && errors.state)}
-                  helperText={touched.state && errors.state}
+                  required
+                  //   {...getFieldProps('state')}
+                  //   error={Boolean(touched.state && errors.state)}
+                  //   helperText={touched.state && errors.state}
                 >
                   {dataState.map((state) => {
                     return (
@@ -279,9 +324,10 @@ const AddingBusiness = () => {
                   sx={{ m: 1, width: '40ch' }}
                   onOpen={handleClickCity}
                   onChange={handleChangeCity}
-                  {...getFieldProps('city')}
-                  error={Boolean(touched.city && errors.city)}
-                  helperText={touched.city && errors.city}
+                  required
+                  //   {...getFieldProps('city')}
+                  //   error={Boolean(touched.city && errors.city)}
+                  //   helperText={touched.city && errors.city}
                 >
                   {cityArray.map((city) => {
                     return (
@@ -304,9 +350,10 @@ const AddingBusiness = () => {
                   sx={{ m: 1, width: '40ch' }}
                   onOpen={handleClickLocation}
                   onChange={handleChangeLocation}
-                  {...getFieldProps('location')}
-                  error={Boolean(touched.category && errors.location)}
-                  helperText={touched.location && errors.location}
+                  required
+                  //   {...getFieldProps('location')}
+                  //   error={Boolean(touched.category && errors.location)}
+                  //   helperText={touched.location && errors.location}
                 >
                   {locationArray.map((location) => {
                     return (
@@ -333,7 +380,7 @@ const AddingBusiness = () => {
           {/* </Box> */}
         </Form>
       </FormikProvider>
-    </>
+    </Box>
   );
 };
 

@@ -18,10 +18,10 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import { ToastContainer, toast, TypeOptions } from 'react-toastify';
 import { dataState } from '../../../utils/dataState';
 import { dataCity } from '../../../utils/dataCity';
 import { dataLocation } from '../../../utils/dataLocation';
-import { ToastContainer, toast, TypeOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // component
