@@ -11,6 +11,9 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import ServiceProvider from './pages/ServiceProvider';
+import AddBusiness from './pages/AddBusiness';
+import SingleBusinessDetails from './pages/SingleBusinessDetails';
+import AddingBusiness from './pages/AddingBusiness';
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +28,8 @@ export default function Router({ loggedIn }) {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
+        { path: 'addingbusiness', element: <AddingBusiness /> },
+        { path: 'singlebusinessdetails', element: <SingleBusinessDetails /> }
       ],
     },
     {
