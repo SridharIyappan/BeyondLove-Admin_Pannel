@@ -34,7 +34,7 @@ export default function DashboardApp() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      let dataInterval = localStorage.getItem('interval');
+      const dataInterval = localStorage.getItem('interval');
       clearInterval(dataInterval);
       getCounts();
     } else {

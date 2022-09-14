@@ -28,16 +28,16 @@ const navConfig = [
     path: '/dashboard/blog',
     icon: getIcon('eva:file-text-fill'),
   },
-  {
-    title: 'addbusines',
-    path: '/dashboard/addingbusiness',
-    icon: getIcon('eva:lock-fill'),
-  },
-  {
-    title: 'singlelisting',
-    path: '/dashboard/singlebusinessdetails',
-    icon: getIcon('eva:person-add-fill'),
-  },
+  // {
+  //   title: 'addbusines',
+  //   path: '/dashboard/addingbusiness',
+  //   icon: getIcon('eva:lock-fill'),
+  // },
+  // {
+  //   title: 'singlelisting',
+  //   path: '/dashboard/singlebusinessdetails',
+  //   icon: getIcon('eva:person-add-fill'),
+  // },
   // {
   //   title: 'Not found',
   //   path: '/404',

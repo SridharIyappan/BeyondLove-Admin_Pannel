@@ -2,7 +2,7 @@ import { filter, first } from 'lodash';
 import { sentenceCase } from 'change-case';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate, useNavigate } from 'react-router-dom';
 // material
 import {
   Card,
@@ -76,6 +76,8 @@ let interval;
 let searchInterval;
 
 export default function ServiceProvider() {
+  const navigate = useNavigate();
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -408,6 +410,14 @@ export default function ServiceProvider() {
     localStorage.setItem('interval', searchInterval);
   };
 
+  const handleAddUser = (e) => {
+    e.preventDefault();
+    navigate('/dashboard/addingbusiness');
+  };
+  const handleBusiness = () => {
+    navigate('/dashboard/singlebusinessdetails');
+  };
+
   return (
     <Page title="User">
       <Container>
@@ -415,7 +425,13 @@ export default function ServiceProvider() {
           <Typography variant="h4" gutterBottom>
             Service Providers
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button
+            variant="contained"
+            component={RouterLink}
+            to="#"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={handleAddUser}
+          >
             New User
           </Button>
         </Stack>
@@ -460,7 +476,7 @@ export default function ServiceProvider() {
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             {/* <Avatar alt={name} src={avatarUrl} /> */}
-                            <Typography variant="subtitle2" noWrap>
+                            <Typography variant="subtitle2" noWrap onClick={handleBusiness}>
                               {businessName}
                             </Typography>
                           </Stack>

@@ -11,7 +11,6 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import ServiceProvider from './pages/ServiceProvider';
-import AddBusiness from './pages/AddBusiness';
 import SingleBusinessDetails from './pages/SingleBusinessDetails';
 import AddingBusiness from './pages/AddingBusiness';
 
@@ -29,12 +28,12 @@ export default function Router({ loggedIn }) {
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: 'addingbusiness', element: <AddingBusiness /> },
-        { path: 'singlebusinessdetails', element: <SingleBusinessDetails /> }
+        { path: 'singlebusinessdetails', element: <SingleBusinessDetails /> },
       ],
     },
     {
       path: '/',
-      element: !loggedIn ? <LogoOnlyLayout /> : <Navigate to="/dashboard/app" />,
+      element: !loggedIn ? <LogoOnlyLayout /> : <Navigate to="/dashboard/app " />,
       children: [
         { path: '/login', element: <Login /> },
         { path: '/', element: <Navigate to="/dashboard/app" /> },
