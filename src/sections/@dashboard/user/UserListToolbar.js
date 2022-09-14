@@ -16,12 +16,12 @@ import {
   FormControl,
   Button,
 } from '@mui/material';
-import { toast } from 'react-toastify';
 import { Box } from '@mui/system';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { dataState } from '../../../utils/dataState';
 import { dataCity } from '../../../utils/dataCity';
 import { dataLocation } from '../../../utils/dataLocation';
+import { ToastContainer, toast, TypeOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // component
@@ -64,7 +64,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
     dataState.sort((a, b) => (a.Geo_Name < b.Geo_Name ? -1 : 1));
     dataCity.sort((a, b) => (a[0] < b[0] ? -1 : 1));
     dataLocation.sort((a, b) => (a[0] < b[0] ? -1 : 1));
-    let inter = localStorage.getItem('interval');
+    const inter = localStorage.getItem('interval');
     console.log({ inter });
     setInterval(inter);
   }, []);
@@ -151,6 +151,8 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
         }),
       }}
     >
+      <ToastContainer />
+
       {numSelected > 0 ? (
         <Typography component="div" variant="subtitle1">
           {numSelected} selected

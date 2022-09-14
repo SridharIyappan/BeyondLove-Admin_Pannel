@@ -35,7 +35,7 @@ const AddingBusiness = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    buinessName: Yup.string().required('Business Name is required'),
+    businessName: Yup.string().required('Business Name is required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     mobile: Yup.string().required('Mobile is required').min(10).max(10),
     address: Yup.string().required('Address is required'),
@@ -48,7 +48,7 @@ const AddingBusiness = () => {
 
   const formik = useFormik({
     initialValues: {
-      buinessName: '',
+      businessName: '',
       email: '',
       mobile: '',
       address: '',
@@ -60,8 +60,19 @@ const AddingBusiness = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: (e) => {
-      e.prventDefault();
-      // alert(JSON.stringify(values, null, 2));
+      e.preventDefault();
+      const d = {
+        businessName: e.businessName,
+        email: e.email,
+        mobile: e.mobile,
+        address: e.address,
+        password: e.password,
+        category: e.category,
+        state: e.state,
+        city: e.city,
+        location: e.location,
+      };
+      console.log({ d });
     },
   });
 
@@ -142,30 +153,25 @@ const AddingBusiness = () => {
   return (
     <>
       <FormikProvider value={formik}>
+        <Typography variant="h4" m={1}>
+          Add Business
+        </Typography>
         <ToastContainer />
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          {/* <Box
-                        component="form"
-                        sx={{
-                            '& .MuiTextField-root': { m: 1, width: '40ch' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    > */}
           <Stack
             spacing={3}
             sx={{
               '& .MuiTextField-root': { m: 1, width: '40ch' },
             }}
           >
-            <div>
+            <Box>
               <TextField
                 id="outlined-password-input"
                 label="Business Name"
                 type="text"
-                {...getFieldProps('buinessName')}
-                error={Boolean(touched.buinessName && errors.buinessName)}
-                helperText={touched.buinessName && errors.buinessName}
+                {...getFieldProps('businessName')}
+                error={Boolean(touched.businessName && errors.businessName)}
+                helperText={touched.businessName && errors.businessName}
               />
 
               <TextField
@@ -179,7 +185,6 @@ const AddingBusiness = () => {
               />
 
               <TextField
-                // fullWidth
                 autoComplete="username"
                 type="number"
                 label="Mobile"
@@ -312,24 +317,9 @@ const AddingBusiness = () => {
                   })}
                 </Select>
               </FormControl>
-            </div>
+            </Box>
           </Stack>
 
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            sx={{ my: 2 }}
-            style={{ float: 'right' }}
-          >
-            {/* <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
-            label="Remember me"
-          /> */}
-            {/* <Link component={RouterLink} variant="subtitle2" to="#" underline="hover" >
-            Forgot password?
-          </Link> */}
-          </Stack>
           <br />
           <LoadingButton
             sx={{ m: 1, width: '83ch' }}
