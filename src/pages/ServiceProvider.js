@@ -420,9 +420,10 @@ export default function ServiceProvider() {
     navigate('/dashboard/singlebusinessdetails', { state: { id, category } });
   };
 
-  const handleEditBusiness = (id, category) => {
+  const handleEditBusiness = (e, id, category) => {
+    e.preventDefault();
     navigate('/dashboard/editbusiness', { state: { id, category } });
-  }
+  };
 
   return (
     <Page title="User">

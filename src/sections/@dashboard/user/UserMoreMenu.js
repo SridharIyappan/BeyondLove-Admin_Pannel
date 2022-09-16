@@ -14,25 +14,24 @@ export default function UserMoreMenu({ category, id, handleEditBusiness }) {
   const navigate = useNavigate();
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [token, setToken] = useState("")
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const tok = localStorage.getItem('token');
       if (token !== null) {
-        setToken(tok)
+        setToken(tok);
       }
     } else {
       console.log('we are running on the server');
     }
-  }, [])
-
+  }, []);
 
   const businessDelete = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.delete(`http://localhost:3002/api/admin/delete-business/${category}/${id}/${token}`)
-      console.log(data)
+      const { data } = await axios.delete(`http://localhost:3002/api/admin/delete-business/${category}/${id}/${token}`);
+      console.log(data);
       if (data.success) {
         toast.success(data.msg, {
           theme: 'light',
@@ -46,13 +45,14 @@ export default function UserMoreMenu({ category, id, handleEditBusiness }) {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  const handlebusinessDetails = () => {
-    navigate('/dashboard/editbusiness', { state: { id, category } });
-  }
+  const handlebusinessDetails = (e) => {
+    e.preventDefault();
+    navigate('/dashboard/editbusiness', { state: { id: id, category: category } });
+  };
 
   return (
     <>
