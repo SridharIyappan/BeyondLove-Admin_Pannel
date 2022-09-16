@@ -420,6 +420,10 @@ export default function ServiceProvider() {
     navigate('/dashboard/singlebusinessdetails', { state: { id, category } });
   };
 
+  const handleEditBusiness = (id, category) => {
+    navigate('/dashboard/editbusiness', { state: { id, category } });
+  }
+
   return (
     <Page title="User">
       <Container>
@@ -446,7 +450,6 @@ export default function ServiceProvider() {
             categoryShow={categoryShow}
             handleSearch={handleSearch}
           />
-
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -498,7 +501,8 @@ export default function ServiceProvider() {
                         </TableCell> */}
 
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          {console.log(category)}
+                          <UserMoreMenu category={category} id={_id} handleEditBusiness={handleEditBusiness} />
                         </TableCell>
                       </TableRow>
                     );

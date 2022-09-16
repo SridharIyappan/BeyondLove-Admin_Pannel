@@ -13,6 +13,7 @@ import DashboardApp from './pages/DashboardApp';
 import ServiceProvider from './pages/ServiceProvider';
 import SingleBusinessDetails from './pages/SingleBusinessDetails';
 import AddingBusiness from './pages/AddingBusiness';
+import EditBusiness from './pages/EditBusiness';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,7 @@ export default function Router({ loggedIn }) {
         { path: 'blog', element: <Blog /> },
         { path: 'addingbusiness', element: <AddingBusiness /> },
         { path: 'singlebusinessdetails', element: <SingleBusinessDetails /> },
+        { path: 'editbusiness', element: <EditBusiness /> },
       ],
     },
     {

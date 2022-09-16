@@ -18,7 +18,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-const SingleBusinessDetails = () => {
+const EditBusiness = () => {
     const [businessName, setBusinessName] = useState("");
     const [email, setEmail] = useState("")
     const [mobile, setMobile] = useState("")
@@ -36,31 +36,12 @@ const SingleBusinessDetails = () => {
             const token = localStorage.getItem('token');
             const id = location.state.id;
             const category = location.state.category;
-            if (id !== undefined && category !== undefined) {
-                getUniqueBusinessDetails(id, category)
-            }
+
         } else {
             console.log('we are running on the server');
         }
     }, [])
 
-    const getUniqueBusinessDetails = async (id, category) => {
-        try {
-            const { data } = await axios.get(`http://localhost:3002/api/business/get-profile/${category}/${id}`);
-            setBusinessName(data.business.businessName)
-            setEmail(data.business.email)
-            setMobile(data.business.mobile)
-            setCategory(data.business.category)
-            // setPincode(data.business.pincode)
-            setAddress(data.business.address[0])
-            setState(data.business.state[0])
-            setCity(data.business.city[0])
-            setLocations(data.business.location[0])
-            console.log(data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     return (
         <div>
@@ -79,25 +60,25 @@ const SingleBusinessDetails = () => {
                     <TextField
                         id="outlined-password-input"
                         label="Business Name"
-                        value={businessName}
+                        // value={businessName}
                         type="text" />
 
                     <TextField id="outlined-basic"
                         label="Email"
                         type="text"
-                        value={email}
+                        // value={email}
                         variant="outlined" />
 
                     <TextField id="outlined-basic"
                         label="Mobile"
                         type="number"
-                        value={mobile}
+                        // value={mobile}
                         variant="outlined" />
 
                     <TextField id="outlined-basic"
                         label="Address"
                         type="text"
-                        value={address}
+                        // value={address}
                         variant="outlined" />
 
                     {/* <TextField id="outlined-basic"
@@ -115,25 +96,24 @@ const SingleBusinessDetails = () => {
                     <TextField id="outlined-basic"
                         label="State"
                         type="text"
-                        value={state}
+                        // value={state}
                         variant="outlined" />
 
                     <TextField id="outlined-basic"
                         label="City"
                         type="text"
-                        value={city}
+                        // value={city}
                         variant="outlined" />
 
                     <TextField id="outlined-basic"
                         label="Location"
                         type="text"
-                        value={locations}
+                        // value={locations}
                         variant="outlined" />
                 </div>
-
             </Box>
         </div>
     );
 }
 
-export default SingleBusinessDetails;
+export default EditBusiness;

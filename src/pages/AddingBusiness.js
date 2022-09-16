@@ -288,6 +288,7 @@ const AddingBusiness = () => {
                   <MenuItem value={'PetBoarding'}>Pet Boarding</MenuItem>
                 </Select>
               </FormControl>
+
               <FormControl>
                 <InputLabel id="state" sx={{ m: 1, width: '40ch' }}>
                   State
@@ -299,9 +300,9 @@ const AddingBusiness = () => {
                   sx={{ m: 1, width: '40ch' }}
                   onChange={handleChangeState}
                   required
-                  //   {...getFieldProps('state')}
-                  //   error={Boolean(touched.state && errors.state)}
-                  //   helperText={touched.state && errors.state}
+                //   {...getFieldProps('state')}
+                //   error={Boolean(touched.state && errors.state)}
+                //   helperText={touched.state && errors.state}
                 >
                   {dataState.map((state) => {
                     return (
@@ -325,9 +326,9 @@ const AddingBusiness = () => {
                   onOpen={handleClickCity}
                   onChange={handleChangeCity}
                   required
-                  //   {...getFieldProps('city')}
-                  //   error={Boolean(touched.city && errors.city)}
-                  //   helperText={touched.city && errors.city}
+                //   {...getFieldProps('city')}
+                //   error={Boolean(touched.city && errors.city)}
+                //   helperText={touched.city && errors.city}
                 >
                   {cityArray.map((city) => {
                     return (
@@ -351,9 +352,9 @@ const AddingBusiness = () => {
                   onOpen={handleClickLocation}
                   onChange={handleChangeLocation}
                   required
-                  //   {...getFieldProps('location')}
-                  //   error={Boolean(touched.category && errors.location)}
-                  //   helperText={touched.location && errors.location}
+                //   {...getFieldProps('location')}
+                //   error={Boolean(touched.category && errors.location)}
+                //   helperText={touched.location && errors.location}
                 >
                   {locationArray.map((location) => {
                     return (
