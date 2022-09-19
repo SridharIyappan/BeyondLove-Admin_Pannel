@@ -39,7 +39,7 @@ const TABLE_HEAD = [
     { id: 'mobile', label: 'Mobile', alignRight: false },
     { id: 'email', label: 'Email', alignRight: false },
     { id: 'location', label: 'Location', alignRight: false },
-    { id: 'status', label: 'Status', alignRight: false },
+    // { id: 'status', label: 'Status', alignRight: false },
     { id: '' },
 ];
 
@@ -184,13 +184,13 @@ export default function BlockedBusiness() {
             if (token !== null) {
                 setTok(token)
                 currentPage = 0;
-                interval = setInterval(() => {
-                    currentPage += 1;
-                    businessFilteration(currentPage, categoryFilter, stateFilter, cityFilter, locationFilter);
-                    getBlockedBusiness(currentPage, token)
-                }, 100);
-                setFirstInterval(interval);
-                localStorage.setItem('interval', interval);
+                // interval = setInterval(() => {
+                currentPage += 1;
+                //     // businessFilteration(currentPage, categoryFilter, stateFilter, cityFilter, locationFilter);
+                getBlockedBusiness(currentPage, token)
+                // }, 100);
+                // // setFirstInterval(interval);
+                // localStorage.setItem('interval', interval);
             }
         } else {
             console.log('we are running on the server');
@@ -315,7 +315,6 @@ export default function BlockedBusiness() {
                 const { data } = await axios.get(
                     `http://localhost:3002/api/business/get-profiles-from-all-categories/${pageNo}`
                 );
-                console.log(data);
                 if (data.success) {
                     arr = data.profilesArray;
                 } else {
@@ -324,7 +323,6 @@ export default function BlockedBusiness() {
                     console.log('success false');
                 }
             } else if (type === 'state') {
-                console.log(state);
                 const { data } = await axios.get(
                     `http://localhost:3002/api/business/get-profiles-by-state/${state[0]}/${state[1]}/${pageNo}`
                 );
@@ -336,7 +334,6 @@ export default function BlockedBusiness() {
                     console.log('success false');
                 }
             } else if (type === 'city') {
-                console.log(city);
                 const { data } = await axios.get(
                     `http://localhost:3002/api/business/get-profiles-by-city/${city[0]}/${city[1]}/${city[2]}/${pageNo}`
                 );
@@ -449,15 +446,12 @@ export default function BlockedBusiness() {
             console.log(token)
             const { data } = await axios.get(`http://localhost:3002/api/admin/get-blocked-business/${pageNo}/${token}`)
             console.log(data)
+            setAllServiceProviders(data.profilesArray);
         } catch (error) {
             console.log(error)
         }
     }
 
-    // const handleAddUser = (e) => {
-    //     e.preventDefault();
-    //     navigate('/dashboard/addingbusiness');
-    // };
     const handleBusiness = (id, category) => {
         console.log(id, category);
         navigate('/dashboard/singlebusinessdetails', { state: { id, category } });
@@ -467,11 +461,6 @@ export default function BlockedBusiness() {
         e.preventDefault();
         navigate('/dashboard/editbusiness', { state: { id, category } });
     };
-
-    // const handleBlocked = (e) => {
-    //     e.preventDefault();
-    //     navigate('/dashboard/addingbusiness');
-    // }
 
     return (
         <Page title="User">
@@ -552,10 +541,7 @@ export default function BlockedBusiness() {
                                                 <TableCell align="left">{mobile}</TableCell>
                                                 <TableCell align="left">{email}</TableCell>
                                                 <TableCell align="left">{location[0]}</TableCell>
-                                                <TableCell align="left">
-                                                    {/* <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                            {sentenceCase(status)}
-                          </Label> */}
+                                                {/* <TableCell align="left">
                                                     <FormControlLabel
                                                         control={<Switch
                                                             // checked={checked}
@@ -564,10 +550,7 @@ export default function BlockedBusiness() {
                                                         />}
                                                         label="Show"
                                                     />
-                                                </TableCell>
-
-
-
+                                                </TableCell> */}
                                                 <TableCell align="right">
                                                     {console.log(category)}
                                                     <UserMoreMenu category={category} id={_id} handleEditBusiness={handleEditBusiness} />
