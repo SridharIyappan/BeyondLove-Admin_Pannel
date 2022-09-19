@@ -186,7 +186,7 @@ export default function ServiceProvider() {
         setTok(token)
         currentPage = 0;
         interval = setInterval(() => {
-          currentPage++;
+          currentPage += 1;
           businessFilteration(currentPage, categoryFilter, stateFilter, cityFilter, locationFilter);
         }, 100);
         setFirstInterval(interval);
@@ -433,7 +433,7 @@ export default function ServiceProvider() {
     currentPage = 0;
 
     searchInterval = setInterval(() => {
-      currentPage++;
+      currentPage += 1;
       businessFilteration(currentPage, category, state, city, location);
     }, 1000);
     setSecondInterval(searchInterval);
@@ -454,6 +454,11 @@ export default function ServiceProvider() {
     navigate('/dashboard/editbusiness', { state: { id, category } });
   };
 
+  const handleBlocked = (e) => {
+    e.preventDefault();
+    navigate('/dashboard/blockedBusiness');
+  }
+
   return (
     <Page title="User">
       <Container>
@@ -461,6 +466,15 @@ export default function ServiceProvider() {
           <Typography variant="h4" gutterBottom>
             Service Providers
           </Typography>
+          <Button
+            variant="contained"
+            component={RouterLink}
+            to="#"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={handleBlocked}
+          >
+            Blocked
+          </Button>
           <Button
             variant="contained"
             component={RouterLink}

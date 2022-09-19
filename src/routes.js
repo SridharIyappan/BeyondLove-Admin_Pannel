@@ -15,6 +15,7 @@ import SingleBusinessDetails from './pages/SingleBusinessDetails';
 import AddingBusiness from './pages/AddingBusiness';
 import EditBusiness from './pages/EditBusiness';
 import SingleCustomerDetails from './pages/SingleCustomerDetails';
+import BlockedBusiness from './pages/BlockedBusiness';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +34,7 @@ export default function Router({ loggedIn }) {
         { path: 'singlebusinessdetails', element: <SingleBusinessDetails /> },
         { path: 'editbusiness', element: <EditBusiness /> },
         { path: 'singlecustomerdetails', element: <SingleCustomerDetails /> },
+        { path: 'blockedBusiness', element: <BlockedBusiness /> },
       ],
     },
     {
