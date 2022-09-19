@@ -19,6 +19,11 @@ const navConfig = [
     icon: getIcon('eva:people-fill'),
   },
   {
+    title: 'blocked Business',
+    path: '/dashboard/blockedBusiness',
+    icon: getIcon('gridicons:block'),
+  },
+  {
     title: 'product',
     path: '/dashboard/products',
     icon: getIcon('eva:shopping-bag-fill'),
@@ -28,11 +33,6 @@ const navConfig = [
     path: '/dashboard/blog',
     icon: getIcon('eva:file-text-fill'),
   },
-  // {
-  //   title: 'addbusines',
-  //   path: '/dashboard/addingbusiness',
-  //   icon: getIcon('eva:lock-fill'),
-  // },
   // {
   //   title: 'singlelisting',
   //   path: '/dashboard/singlebusinessdetails',
