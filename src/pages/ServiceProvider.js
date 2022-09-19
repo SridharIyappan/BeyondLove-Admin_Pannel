@@ -40,6 +40,7 @@ const TABLE_HEAD = [
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'location', label: 'Location', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: 'verify', label: 'Verify', alignRight: false },
   { id: '' },
 ];
 
@@ -122,6 +123,22 @@ export default function ServiceProvider() {
     handleBlock(id, category, check);
   };
 
+  const handleChangeVerify = (e, id, category, check) => {
+    // e.preventDefault();
+    setAllServiceProviders((prev) =>
+      prev.map((item) => {
+        console.log(item._id, 'maped id', id, 'id');
+        if (item._id === id) {
+          console.log('true If runs');
+          item.verify = check;
+        }
+        return item;
+      })
+    );
+    console.log(e);
+    handleVerify(id, category, check);
+  };
+
   const handleBlock = async (id, category, check) => {
     try {
       const d = {
@@ -130,6 +147,20 @@ export default function ServiceProvider() {
         block: !check,
       };
       const { data } = await axios.put(`http://localhost:3002/api/admin/block-unblock/business/${tok}`, d);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleVerify = async (id, category, check) => {
+    try {
+      const d = {
+        businessId: id,
+        category,
+        block: !check,
+      };
+      const { data } = await axios.put(`http://localhost:3002/api/admin/verify/business/${tok}`, d);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -506,6 +537,7 @@ export default function ServiceProvider() {
                     const { _id, businessName, mobile, email, location, category } = row;
                     const isItemSelected = selected.indexOf(businessName) !== -1;
                     const check = row.block;
+                    const verify = row.verified;
                     return (
                       <TableRow
                         hover
@@ -544,6 +576,17 @@ export default function ServiceProvider() {
                             }
                             label="Show"
                           // {check ? label = "Blocked" : label = "Un-Blocked"}
+                          />
+                        </TableCell>
+                        <TableCell align="left">
+                          <FormControlLabel
+                            control={
+                              <Switch
+                                defaultChecked={verify}
+                                onChange={(e) => handleChangeVerify(e, _id, category, verify)}
+                              />
+                            }
+                            label="Show"
                           />
                         </TableCell>
 
