@@ -36,7 +36,7 @@ const TABLE_HEAD = [
   { id: 'mobile', label: 'Mobile', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'location', label: 'Location', alignRight: false },
-  // { id: 'status', label: 'Status', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: '' },
 ];
 
@@ -495,11 +495,11 @@ export default function ServiceProvider() {
                         <TableCell align="left">{mobile}</TableCell>
                         <TableCell align="left">{email}</TableCell>
                         <TableCell align="left">{location[0]}</TableCell>
-                        {/* <TableCell align="left">
+                        <TableCell align="left">
                           <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                             {sentenceCase(status)}
                           </Label>
-                        </TableCell> */}
+                        </TableCell>
 
                         <TableCell align="right">
                           {console.log(category)}

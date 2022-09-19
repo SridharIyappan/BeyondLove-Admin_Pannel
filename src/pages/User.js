@@ -160,6 +160,11 @@ export default function User() {
     }
   };
 
+  const handleCustomer = (id) => {
+    console.log(id)
+    singlecustomerdetails
+  }
+
   return (
     <Page title="User">
       <Container>
@@ -194,7 +199,7 @@ export default function User() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, customerName, mobile, email, location } = row;
+                    const { _id, customerName, mobile, email, location } = row;
                     const isItemSelected = selected.indexOf(customerName) !== -1;
 
                     return (
@@ -212,7 +217,10 @@ export default function User() {
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             {/* <Avatar alt={name} src={avatarUrl} /> */}
-                            <Typography variant="subtitle2" noWrap>
+                            <Typography variant="subtitle2" noWrap
+                              onClick={() => handleCustomer(_id)}
+                              sx={{ cursor: 'pointer' }}
+                            >
                               {customerName}
                             </Typography>
                           </Stack>

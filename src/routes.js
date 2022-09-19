@@ -14,6 +14,7 @@ import ServiceProvider from './pages/ServiceProvider';
 import SingleBusinessDetails from './pages/SingleBusinessDetails';
 import AddingBusiness from './pages/AddingBusiness';
 import EditBusiness from './pages/EditBusiness';
+import SingleCustomerDetails from './pages/SingleCustomerDetails';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +32,7 @@ export default function Router({ loggedIn }) {
         { path: 'addingbusiness', element: <AddingBusiness /> },
         { path: 'singlebusinessdetails', element: <SingleBusinessDetails /> },
         { path: 'editbusiness', element: <EditBusiness /> },
+        { path: 'singlecustomerdetails', element: <SingleCustomerDetails /> },
       ],
     },
     {
