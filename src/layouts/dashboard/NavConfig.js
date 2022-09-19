@@ -26,7 +26,7 @@ const navConfig = [
   {
     title: 'verified Business',
     path: '/dashboard/verifiedBusiness',
-    icon: getIcon('gridicons:block'),
+    icon: getIcon('uil:comment-verify'),
   },
   {
     title: 'product',

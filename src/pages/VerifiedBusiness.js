@@ -419,7 +419,7 @@ export default function VerifiedBusiness() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Blocked Business Details
+            Verified Business Details
           </Typography>
           {/* <Button
                         variant="contained"
