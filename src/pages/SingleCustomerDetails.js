@@ -19,7 +19,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const SingleCustomerDetails = () => {
-    const [businessName, setBusinessName] = useState("");
+    const [customerName, setCustomerName] = useState("");
     const [email, setEmail] = useState("")
     const [mobile, setMobile] = useState("")
     const [address, setAddress] = useState("");
@@ -33,29 +33,27 @@ const SingleCustomerDetails = () => {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const token = localStorage.getItem('token');
+            const tok = localStorage.getItem('token');
             const id = location.state.id;
-            const category = location.state.category;
-            if (id !== undefined && category !== undefined) {
-                getUniqueBusinessDetails(id, category)
+            if (id !== undefined && tok !== undefined) {
+                getUniqueCustomerDetails(id, tok)
             }
         } else {
             console.log('we are running on the server');
         }
     }, [])
 
-    const getUniqueBusinessDetails = async (id, category) => {
+    const getUniqueCustomerDetails = async (id, token) => {
         try {
-            const { data } = await axios.get(`http://localhost:3002/api/business/get-profile/${category}/${id}`);
-            setBusinessName(data.business.businessName)
-            setEmail(data.business.email)
-            setMobile(data.business.mobile)
-            setCategory(data.business.category)
-            // setPincode(data.business.pincode)
-            setAddress(data.business.address[0])
-            setState(data.business.state[0])
-            setCity(data.business.city[0])
-            setLocations(data.business.location[0])
+            const { data } = await axios.get(`http://localhost:3002/api/admin/get-uniquecustomer/${id}/${token}`);
+            setCustomerName(data.user.customerName)
+            setEmail(data.user.email)
+            setPincode(data.user.pincode)
+            setMobile(data.user.mobile)
+            setAddress(data.user.address[2])
+            setState(data.user.state[0])
+            setCity(data.user.city[0])
+            setLocations(data.user.location[0])
             console.log(data)
         } catch (error) {
             console.log(error)
@@ -74,12 +72,12 @@ const SingleCustomerDetails = () => {
             >
                 <div>
                     <Typography variant="h4" gutterBottom>
-                        Business Details
+                        Customer Details
                     </Typography>
                     <TextField
                         id="outlined-password-input"
                         label="Business Name"
-                        value={businessName}
+                        value={customerName}
                         type="text" />
 
                     <TextField id="outlined-basic"
@@ -100,16 +98,10 @@ const SingleCustomerDetails = () => {
                         value={address}
                         variant="outlined" />
 
-                    {/* <TextField id="outlined-basic"
+                    <TextField id="outlined-basic"
                         label="Pincode"
                         type="number"
                         value={pincode}
-                        variant="outlined" /> */}
-
-                    <TextField id="outlined-basic"
-                        label="Category"
-                        type="text"
-                        value={category}
                         variant="outlined" />
 
                     <TextField id="outlined-basic"

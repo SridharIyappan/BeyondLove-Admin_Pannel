@@ -2,7 +2,7 @@ import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import {
   Card,
@@ -74,6 +74,7 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function User() {
+  const navigate = useNavigate();
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -162,7 +163,7 @@ export default function User() {
 
   const handleCustomer = (id) => {
     console.log(id)
-    singlecustomerdetails
+    navigate('/dashboard/singlecustomerdetails', { state: { id } });
   }
 
   return (
@@ -205,7 +206,7 @@ export default function User() {
                     return (
                       <TableRow
                         hover
-                        key={id}
+                        key={_id}
                         tabIndex={-1}
                         role="checkbox"
                         selected={isItemSelected}

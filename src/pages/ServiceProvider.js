@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { filter, first } from 'lodash';
 import { sentenceCase } from 'change-case';
 import axios from 'axios';
@@ -19,6 +20,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 // components
 import Page from '../components/Page';
 import Label from '../components/Label';
@@ -99,6 +102,31 @@ export default function ServiceProvider() {
 
   const [firstInterval, setFirstInterval] = useState('');
   const [secondInterval, setSecondInterval] = useState('');
+  const [checked, setChecked] = useState(false);
+  const [tok, setTok] = useState("")
+  console.log(checked)
+
+  const handleChangeBlock = (id, category) => {
+    setChecked((prev) => !prev);
+    handleBlock(id, category)
+  };
+
+  const handleBlock = async (id, category) => {
+    try {
+      const d = {
+        businessId: id,
+        category,
+        block: checked
+      }
+      console.log(d)
+      console.log(tok)
+      const { data } = await axios.put(`http://localhost:3002/api/admin/block-unblock/business/${tok}`, d);
+      console.log(data)
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
   const categoryShow = true;
 
@@ -155,6 +183,7 @@ export default function ServiceProvider() {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token');
       if (token !== null) {
+        setTok(token)
         currentPage = 0;
         interval = setInterval(() => {
           currentPage++;
@@ -496,10 +525,20 @@ export default function ServiceProvider() {
                         <TableCell align="left">{email}</TableCell>
                         <TableCell align="left">{location[0]}</TableCell>
                         <TableCell align="left">
-                          <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
+                          {/* <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
                             {sentenceCase(status)}
-                          </Label>
+                          </Label> */}
+                          <FormControlLabel
+                            control={<Switch
+                              // checked={checked}
+
+                              onChange={() => handleChangeBlock(_id, category)}
+                            />}
+                            label="Show"
+                          />
                         </TableCell>
+
+
 
                         <TableCell align="right">
                           {console.log(category)}
