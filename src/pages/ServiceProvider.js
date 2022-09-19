@@ -102,31 +102,41 @@ export default function ServiceProvider() {
 
   const [firstInterval, setFirstInterval] = useState('');
   const [secondInterval, setSecondInterval] = useState('');
-  const [checked, setChecked] = useState(false);
-  const [tok, setTok] = useState("")
-  console.log(checked)
+  // const [checked, setChecked] = useState(false);
+  const [tok, setTok] = useState('');
+  // console.log(checked)
 
-  const handleChangeBlock = (id, category) => {
-    setChecked((prev) => !prev);
-    handleBlock(id, category)
+  const handleChangeBlock = (e, id, category, check) => {
+    // e.preventDefault();
+    setAllServiceProviders((prev) =>
+      prev.map((item) => {
+        console.log(item._id, 'maped id', id, 'id');
+        if (item._id === id) {
+          console.log('true If runs');
+          item.block = check;
+        }
+        return item;
+      })
+    );
+    console.log(e);
+    handleBlock(id, category, check);
   };
 
-  const handleBlock = async (id, category) => {
+  const handleBlock = async (id, category, check) => {
     try {
       const d = {
         businessId: id,
         category,
-        block: checked
-      }
-      console.log(d)
-      console.log(tok)
+        block: !check,
+      };
+      console.log(d);
+      console.log(tok);
       const { data } = await axios.put(`http://localhost:3002/api/admin/block-unblock/business/${tok}`, d);
-      console.log(data)
+      console.log(data);
+    } catch (error) {
+      console.log(error);
     }
-    catch (error) {
-      console.log(error)
-    }
-  }
+  };
 
   const categoryShow = true;
 
@@ -183,7 +193,7 @@ export default function ServiceProvider() {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token');
       if (token !== null) {
-        setTok(token)
+        setTok(token);
         currentPage = 0;
         interval = setInterval(() => {
           currentPage += 1;
@@ -457,7 +467,7 @@ export default function ServiceProvider() {
   const handleBlocked = (e) => {
     e.preventDefault();
     navigate('/dashboard/blockedBusiness');
-  }
+  };
 
   return (
     <Page title="User">
@@ -510,6 +520,7 @@ export default function ServiceProvider() {
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { _id, businessName, mobile, email, location, category } = row;
                     const isItemSelected = selected.indexOf(businessName) !== -1;
+                    const check = row.block;
                     return (
                       <TableRow
                         hover
@@ -539,20 +550,17 @@ export default function ServiceProvider() {
                         <TableCell align="left">{email}</TableCell>
                         <TableCell align="left">{location[0]}</TableCell>
                         <TableCell align="left">
-                          {/* <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                            {sentenceCase(status)}
-                          </Label> */}
                           <FormControlLabel
-                            control={<Switch
-                              // checked={checked}
-
-                              onChange={() => handleChangeBlock(_id, category)}
-                            />}
+                            control={
+                              <Switch
+                                defaultChecked={check}
+                                onChange={(e) => handleChangeBlock(e, _id, category, check)}
+                                // onClick={}
+                              />
+                            }
                             label="Show"
                           />
                         </TableCell>
-
-
 
                         <TableCell align="right">
                           {console.log(category)}
