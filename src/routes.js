@@ -16,6 +16,7 @@ import AddingBusiness from './pages/AddingBusiness';
 import EditBusiness from './pages/EditBusiness';
 import SingleCustomerDetails from './pages/SingleCustomerDetails';
 import BlockedBusiness from './pages/BlockedBusiness';
+import VerifiedBusiness from './pages/VerifiedBusiness';
 
 // ----------------------------------------------------------------------
 
@@ -35,6 +36,7 @@ export default function Router({ loggedIn }) {
         { path: 'editbusiness', element: <EditBusiness /> },
         { path: 'singlecustomerdetails', element: <SingleCustomerDetails /> },
         { path: 'blockedBusiness', element: <BlockedBusiness /> },
+        { path: 'verifiedBusiness', element: <VerifiedBusiness /> },
       ],
     },
     {
