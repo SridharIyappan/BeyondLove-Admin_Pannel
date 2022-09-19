@@ -129,8 +129,6 @@ export default function ServiceProvider() {
         category,
         block: !check,
       };
-      console.log(d);
-      console.log(tok);
       const { data } = await axios.put(`http://localhost:3002/api/admin/block-unblock/business/${tok}`, d);
       console.log(data);
     } catch (error) {
@@ -464,11 +462,6 @@ export default function ServiceProvider() {
     navigate('/dashboard/editbusiness', { state: { id, category } });
   };
 
-  const handleBlocked = (e) => {
-    e.preventDefault();
-    navigate('/dashboard/blockedBusiness');
-  };
-
   return (
     <Page title="User">
       <Container>
@@ -476,15 +469,7 @@ export default function ServiceProvider() {
           <Typography variant="h4" gutterBottom>
             Service Providers
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-            onClick={handleBlocked}
-          >
-            Blocked
-          </Button>
+
           <Button
             variant="contained"
             component={RouterLink}
@@ -555,15 +540,14 @@ export default function ServiceProvider() {
                               <Switch
                                 defaultChecked={check}
                                 onChange={(e) => handleChangeBlock(e, _id, category, check)}
-                                // onClick={}
                               />
                             }
                             label="Show"
+                          // {check ? label = "Blocked" : label = "Un-Blocked"}
                           />
                         </TableCell>
 
                         <TableCell align="right">
-                          {console.log(category)}
                           <UserMoreMenu category={category} id={_id} handleEditBusiness={handleEditBusiness} />
                         </TableCell>
                       </TableRow>
