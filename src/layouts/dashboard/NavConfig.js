@@ -24,6 +24,11 @@ const navConfig = [
     icon: getIcon('gridicons:block'),
   },
   {
+    title: 'verified Business',
+    path: '/dashboard/verifiedBusiness',
+    icon: getIcon('gridicons:block'),
+  },
+  {
     title: 'product',
     path: '/dashboard/products',
     icon: getIcon('eva:shopping-bag-fill'),
