@@ -15,7 +15,18 @@ import {
     FormControl,
     Button,
 } from '@mui/material';
+import Divider from '@mui/material/Divider';
+import MenuList from '@mui/material/MenuList';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ContentCut from '@mui/icons-material/ContentCut';
+import ContentCopy from '@mui/icons-material/ContentCopy';
+import ContentPaste from '@mui/icons-material/ContentPaste';
+import Cloud from '@mui/icons-material/Cloud';
 import { useLocation } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import { useEffect, useState } from 'react';
 
 const SingleCustomerDetails = () => {
@@ -23,12 +34,11 @@ const SingleCustomerDetails = () => {
     const [email, setEmail] = useState("")
     const [mobile, setMobile] = useState("")
     const [address, setAddress] = useState("");
-    const [category, setCategory] = useState("")
     const [pincode, setPincode] = useState("")
     const [state, setState] = useState("")
     const [city, setCity] = useState("");
     const [locations, setLocations] = useState("")
-
+    const [petDetails, setPetDetails] = useState([])
     const location = useLocation();
 
     useEffect(() => {
@@ -43,9 +53,18 @@ const SingleCustomerDetails = () => {
         }
     }, [])
 
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    }));
+
     const getUniqueCustomerDetails = async (id, token) => {
         try {
             const { data } = await axios.get(`http://localhost:3002/api/admin/get-uniquecustomer/${id}/${token}`);
+            console.log(data)
             setCustomerName(data.user.customerName)
             setEmail(data.user.email)
             setPincode(data.user.pincode)
@@ -54,7 +73,7 @@ const SingleCustomerDetails = () => {
             setState(data.user.state[0])
             setCity(data.user.city[0])
             setLocations(data.user.location[0])
-            console.log(data)
+            setPetDetails(data.pets);
         } catch (error) {
             console.log(error)
         }
@@ -122,9 +141,89 @@ const SingleCustomerDetails = () => {
                         value={locations}
                         variant="outlined" />
                 </div>
+                <div>
+                    {petDetails.length > 0 && (<Typography variant="h4" gutterBottom>
+                        Pet Details
+                    </Typography>)}
+                    <Box sx={{ m: 1, width: '75%' }}>
+                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                            {petDetails.map((pet) => {
+                                return (
+                                    <Grid item xs={6} key={pet._id}>
+                                        <Item>
+                                            <Paper sx={{ width: 320, maxWidth: '100%' }}>
+                                                <MenuList>
+                                                    <MenuItem>
+                                                        <Typography variant="body2" color="text.secondary">
+                                                            Name
+                                                        </Typography>
+                                                        <ListItemText>{pet.petName}</ListItemText>
+                                                    </MenuItem>
 
-            </Box>
-        </div>
+                                                    <MenuItem>
+                                                        <Typography variant="body2" color="text.secondary">
+                                                            Age
+                                                        </Typography>
+                                                        <ListItemText>{pet.age}</ListItemText>
+                                                    </MenuItem>
+
+                                                    <MenuItem>
+                                                        <Typography variant="body2" color="text.secondary">
+                                                            DOB
+                                                        </Typography>
+                                                        <ListItemText>{pet.dob}</ListItemText>
+                                                    </MenuItem>
+
+                                                    <MenuItem>
+                                                        <Typography variant="body2" color="text.secondary">
+                                                            Gender
+                                                        </Typography>
+                                                        <ListItemText>{pet.gender}</ListItemText>
+                                                    </MenuItem>
+
+                                                    <MenuItem>
+                                                        <Typography variant="body2" color="text.secondary">
+                                                            Allergies
+                                                        </Typography>
+                                                        <ListItemText>{pet.allergies}</ListItemText>
+                                                    </MenuItem>
+                                                    <MenuItem>
+                                                        <Typography variant="body2" color="text.secondary">
+                                                            Breed
+                                                        </Typography>
+                                                        <ListItemText>{pet.breed}</ListItemText>
+                                                    </MenuItem>
+
+                                                    <MenuItem>
+                                                        <Typography variant="body2" color="text.secondary">
+                                                            Active
+                                                        </Typography>
+                                                        <ListItemText>{pet.active}</ListItemText>
+                                                    </MenuItem>
+                                                    <MenuItem>
+                                                        <Typography variant="body2" color="text.secondary">
+                                                            Weight
+                                                        </Typography>
+                                                        <ListItemText>{pet.weight}</ListItemText>
+                                                    </MenuItem>
+
+                                                    <MenuItem>
+                                                        <Typography variant="body2" color="text.secondary">
+                                                            Trained
+                                                        </Typography>
+                                                        {pet.trained ? <ListItemText>Yes</ListItemText> : <ListItemText>No</ListItemText>}
+                                                    </MenuItem>
+                                                </MenuList>
+                                            </Paper>
+                                        </Item>
+                                    </Grid>
+                                )
+                            })}
+                        </Grid>
+                    </Box >
+                </div >
+            </Box >
+        </div >
     );
 }
 
