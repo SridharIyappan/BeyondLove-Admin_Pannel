@@ -576,9 +576,9 @@ export default function ServiceProvider() {
                                 onChange={(e) => handleChangeBlock(e, _id, category, check)}
                               />
                             }
-                            label="Show"
-                            // {check ? label = "Blocked" : label = "Un-Blocked"}
+                          // label="Show"
                           />
+                          {check ? "Blocked" : "Un - Blocked"}
                         </TableCell>
                         <TableCell align="left">
                           <FormControlLabel
