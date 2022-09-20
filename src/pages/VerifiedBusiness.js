@@ -394,8 +394,8 @@ export default function VerifiedBusiness() {
       console.log(pageNo);
       console.log(token);
       const { data } = await axios.get(`http://localhost:3002/api/admin/get-verified-business/${pageNo}/${token}`);
-      console.log(data);
-      if (data.sucess) {
+      console.log({ data });
+      if (data.success) {
         setAllServiceProviders(data.profilesArray);
       }
       setData(data.profilesArray);
