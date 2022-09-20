@@ -578,7 +578,7 @@ export default function ServiceProvider() {
                             }
                           // label="Show"
                           />
-                          {check ? "Blocked" : "Un - Blocked"}
+                          {check ? "Block" : "Un - Block"}
                         </TableCell>
                         <TableCell align="left">
                           <FormControlLabel
