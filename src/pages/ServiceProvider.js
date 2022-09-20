@@ -576,7 +576,7 @@ export default function ServiceProvider() {
                                 onChange={(e) => handleChangeBlock(e, _id, category, check)}
                               />
                             }
-                            // label="Show"
+                          // label="Show"
                           />
                           {/* {check ? "Block" : "Un - Block"} */}
                         </TableCell>
@@ -588,7 +588,7 @@ export default function ServiceProvider() {
                                 onChange={(e) => handleChangeVerify(e, _id, category, verified)}
                               />
                             }
-                            label="Show"
+                          // label="Show"
                           />
                         </TableCell>
 
