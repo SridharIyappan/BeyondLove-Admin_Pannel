@@ -203,25 +203,27 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
         </Typography>
       ) : (
         <Box sx={{ minWidth: 150 }}>
-          <FormControl fullWidth>
-            <InputLabel id="state">State</InputLabel>
+          {categoryShow && (
+            <FormControl fullWidth>
+              <InputLabel id="state">State</InputLabel>
 
-            <Select
-              labelId="state"
-              id="demo-simple-select"
-              // value={stateName}
-              label="State"
-              onChange={handleChangeState}
-            >
-              {dataState.map((state) => {
-                return (
-                  <MenuItem value={state} key={state.id}>
-                    {state.Geo_Name !== '' && state.Geo_Name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+              <Select
+                labelId="state"
+                id="demo-simple-select"
+                // value={stateName}
+                label="State"
+                onChange={handleChangeState}
+              >
+                {dataState.map((state) => {
+                  return (
+                    <MenuItem value={state} key={state.id}>
+                      {state.Geo_Name !== '' && state.Geo_Name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          )}
         </Box>
       )}
       {numSelected > 0 ? (
@@ -230,25 +232,27 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
         </Typography>
       ) : (
         <Box sx={{ minWidth: 150 }}>
-          <FormControl fullWidth>
-            <InputLabel id="city">City</InputLabel>
-            <Select
-              labelId="city"
-              id="demo-simple-select"
-              // value={age}
-              label="City"
-              onOpen={handleClickCity}
-              onChange={handleChangeCity}
-            >
-              {cityArray.map((city) => {
-                return (
-                  <MenuItem value={city} key={city[2]}>
-                    {city[0]}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+          {categoryShow && (
+            <FormControl fullWidth>
+              <InputLabel id="city">City</InputLabel>
+              <Select
+                labelId="city"
+                id="demo-simple-select"
+                // value={age}
+                label="City"
+                onOpen={handleClickCity}
+                onChange={handleChangeCity}
+              >
+                {cityArray.map((city) => {
+                  return (
+                    <MenuItem value={city} key={city[2]}>
+                      {city[0]}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          )}
         </Box>
       )}
       {numSelected > 0 ? (
@@ -257,25 +261,27 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
         </Typography>
       ) : (
         <Box sx={{ minWidth: 150 }}>
-          <FormControl fullWidth>
-            <InputLabel id="location">Location</InputLabel>
-            <Select
-              labelId="location"
-              id="demo-simple-select"
-              // value={age}
-              label="Location"
-              onOpen={handleClickLocation}
-              onChange={handleChangeLocation}
-            >
-              {locationArray.map((location) => {
-                return (
-                  <MenuItem value={location} key={location[3]}>
-                    {location[0]}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+          {categoryShow && (
+            <FormControl fullWidth>
+              <InputLabel id="location">Location</InputLabel>
+              <Select
+                labelId="location"
+                id="demo-simple-select"
+                // value={age}
+                label="Location"
+                onOpen={handleClickLocation}
+                onChange={handleChangeLocation}
+              >
+                {locationArray.map((location) => {
+                  return (
+                    <MenuItem value={location} key={location[3]}>
+                      {location[0]}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          )}
         </Box>
       )}
       {numSelected > 0 ? (
@@ -285,15 +291,19 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Search">
-          <Button
-            variant="contained"
-            sx={{ height: '50px', width: '50px' }}
-            onClick={() => handleSearch(selectedCategory, selectedState, selectedCity, selectedLocation)}
-          >
-            <SearchRoundedIcon />
-          </Button>
-        </Tooltip>
+        <Box>
+          {categoryShow && (
+            <Tooltip title="Search">
+              <Button
+                variant="contained"
+                sx={{ height: '50px', width: '50px' }}
+                onClick={() => handleSearch(selectedCategory, selectedState, selectedCity, selectedLocation)}
+              >
+                <SearchRoundedIcon />
+              </Button>
+            </Tooltip>
+          )}
+        </Box>
       )}
     </RootStyle>
   );
