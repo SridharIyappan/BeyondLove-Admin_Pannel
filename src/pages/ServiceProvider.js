@@ -39,7 +39,7 @@ const TABLE_HEAD = [
   { id: 'mobile', label: 'Mobile', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'location', label: 'Location', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'block/unblock', label: 'Block/Un-Block', alignRight: false },
   { id: 'verify', label: 'Verify', alignRight: false },
   { id: '' },
 ];
@@ -576,9 +576,9 @@ export default function ServiceProvider() {
                                 onChange={(e) => handleChangeBlock(e, _id, category, check)}
                               />
                             }
-                          // label="Show"
+                            // label="Show"
                           />
-                          {check ? "Block" : "Un - Block"}
+                          {/* {check ? "Block" : "Un - Block"} */}
                         </TableCell>
                         <TableCell align="left">
                           <FormControlLabel
