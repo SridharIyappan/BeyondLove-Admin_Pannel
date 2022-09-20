@@ -158,7 +158,7 @@ export default function ServiceProvider() {
       const d = {
         businessId: id,
         category,
-        block: !check,
+        verified: !check,
       };
       const { data } = await axios.put(`http://localhost:3002/api/admin/verify/business/${tok}`, d);
       console.log(data);
@@ -534,10 +534,12 @@ export default function ServiceProvider() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { _id, businessName, mobile, email, location, category } = row;
+                    const { _id, businessName, mobile, email, location, category, verified } = row;
                     const isItemSelected = selected.indexOf(businessName) !== -1;
                     const check = row.block;
-                    const verify = row.verified;
+                    // const veri = row.verified;
+                    console.log({ check });
+                    console.log({ verified });
                     return (
                       <TableRow
                         hover
@@ -575,15 +577,15 @@ export default function ServiceProvider() {
                               />
                             }
                             label="Show"
-                          // {check ? label = "Blocked" : label = "Un-Blocked"}
+                            // {check ? label = "Blocked" : label = "Un-Blocked"}
                           />
                         </TableCell>
                         <TableCell align="left">
                           <FormControlLabel
                             control={
                               <Switch
-                                defaultChecked={verify}
-                                onChange={(e) => handleChangeVerify(e, _id, category, verify)}
+                                defaultChecked={verified}
+                                onChange={(e) => handleChangeVerify(e, _id, category, verified)}
                               />
                             }
                             label="Show"
