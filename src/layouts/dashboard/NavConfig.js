@@ -28,16 +28,16 @@ const navConfig = [
     path: '/dashboard/verifiedBusiness',
     icon: getIcon('uil:comment-verify'),
   },
-  {
-    title: 'product',
-    path: '/dashboard/products',
-    icon: getIcon('eva:shopping-bag-fill'),
-  },
-  {
-    title: 'blog',
-    path: '/dashboard/blog',
-    icon: getIcon('eva:file-text-fill'),
-  },
+  // {
+  //   title: 'product',
+  //   path: '/dashboard/products',
+  //   icon: getIcon('eva:shopping-bag-fill'),
+  // },
+  // {
+  //   title: 'blog',
+  //   path: '/dashboard/blog',
+  //   icon: getIcon('eva:file-text-fill'),
+  // },
   // {
   //   title: 'singlelisting',
   //   path: '/dashboard/singlebusinessdetails',
